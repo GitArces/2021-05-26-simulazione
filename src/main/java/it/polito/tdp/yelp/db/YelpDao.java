@@ -12,6 +12,36 @@ import it.polito.tdp.yelp.model.Review;
 import it.polito.tdp.yelp.model.User;
 
 public class YelpDao {
+	
+	public List<String> getAllCities() {
+		String sql = "SELECT DISTINCT city "
+				+ "FROM business "
+				+ "ORDER BY city";
+		
+		List<String> result = new ArrayList<>();
+		
+		Connection conn = DBConnect.getConnection();
+
+		try {
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				result.add(res.getString("city"));
+			}
+			res.close();
+			st.close();
+			conn.close();
+			return result;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	
+	
 
 	public List<Business> getAllBusiness(){
 		String sql = "SELECT * FROM Business";
